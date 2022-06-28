@@ -1,0 +1,22 @@
+.board{
+    display: grid;
+    width: 800px;
+    height: 800px;
+    grid-template:
+    'displaywindow displaywindow displaywindow displaywindow'
+    '. . . .'
+    '. . . .'
+    '. . . .'
+    '. .  button button';
+}
+
+.displayWindow{
+    grid-area: displaywindow;
+    width:800px;
+    height:32px;
+    font-size: 24px;
+}
+
+.equal{
+    grid-area: button;
+}
