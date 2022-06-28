@@ -7,6 +7,7 @@ class Button extends React.Component{
     }
 
     return_data = () => {
+        console.log("clicked")
         const {text,func} = this.props
         if(this.hasNumber(text)){
             func(parseInt(text));
@@ -16,9 +17,9 @@ class Button extends React.Component{
     }
 
     render() {
-        const {text} = this.props
+        const {text, className} = this.props
         return (
-            <div onClick={this.return_data}>
+            <div onClick={this.return_data} className={className}>
                 <span>{text}</span>
             </div>
         )
