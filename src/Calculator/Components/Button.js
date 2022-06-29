@@ -1,5 +1,5 @@
 import React from "react";
-
+import "./button.css"
 class Button extends React.Component{
 
     hasNumber = (myString) => {
@@ -7,6 +7,7 @@ class Button extends React.Component{
     }
 
     return_data = () => {
+
         console.log("clicked")
         const {text,func} = this.props
         if(this.hasNumber(text)){
@@ -18,8 +19,10 @@ class Button extends React.Component{
 
     render() {
         const {text, className} = this.props
+
+        const classActive = [className, this.hasNumber(text) || text === "." ? "numButton" : "operationButton"].join(" ")
         return (
-            <div onClick={this.return_data} className={className}>
+            <div onClick={this.return_data} className={classActive}>
                 <span>{text}</span>
             </div>
         )

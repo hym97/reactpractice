@@ -8,23 +8,31 @@ class Calculator extends React.Component{
         console.log("parser clicked")
         console.log("callbackVal", callbackVal)
         let tmpStack = this.tmpStack;
-        let {result,updatedVal} = this.state
+        let {result, updatedVal} = this.state
+
         let lastOperation;
         // debugger;
         if(typeof callbackVal === 'number') {
             if(!tmpStack.length){
                 tmpStack.push(callbackVal);
                 this.setState({result:callbackVal});
+
+                this.setState({updatedVal: callbackVal})
             }else{
                 lastOperation = tmpStack.pop();
                 if(typeof lastOperation === 'number'){
                     updatedVal = lastOperation * 10 + callbackVal;
                     tmpStack.push(updatedVal)
+
+
                     this.setState({result:updatedVal});
+                    this.setState({updatedVal: updatedVal})
                 }else{
-                    switch (callbackVal){
+                    this.setState({result: callbackVal})
+                    switch (lastOperation){
                         case "+":
                             updatedVal = result + callbackVal;
+                            console.log(updatedVal)
                             break;
                         case "-":
                             updatedVal = result - callbackVal;
@@ -35,29 +43,47 @@ class Calculator extends React.Component{
                         case '/':
                             updatedVal = result / callbackVal;
                             break;
-                        case '+/-':
-                            updatedVal = -result;
-                            this.setState({result:updatedVal});
-                            break;
-                        case "=":
-                            if(updatedVal !== result) this.setState({result:updatedVal});
-                            break;
-                        case "%":
-                            updatedVal = 0.01 * result;
-                            this.setState({result:updatedVal});
-                            break;
-                        case "AC":
-                            updatedVal = 0;
-                            this.setState({result:updatedVal})
+                        // case '+/-':
+                        //     updatedVal = -result;
+                        //     this.setState({result:updatedVal});
+                        //     break;
+                        // case "=":
+                        //     if(updatedVal !== result) this.setState({result:updatedVal});
+                        //     break;
+                        // case "%":
+                        //     updatedVal = 0.01 * result;
+                        //     this.setState({result:updatedVal});
+                        //     break;
+                        // case "AC":
+                        //     updatedVal = 0;
+                        //     this.setState({result:updatedVal})
                     }
+                    this.setState({updatedVal:updatedVal})
                 }
             }
         }else{
-            if(!tmpStack){
-                tmpStack.push(callbackVal)
+            if(callbackVal === "="){
+                console.log(updatedVal)
+                this.setState({result:updatedVal});
+            }else if(callbackVal === '+/-'){
+                updatedVal = -result;
+                this.setState({result:updatedVal});
+            }else if(callbackVal === '%'){
+                updatedVal = 0.01 * result;
+                this.setState({result:updatedVal});
+            }else if(callbackVal === "AC"){
+                updatedVal = 0;
+                tmpStack.length = 0
+
+                this.setState({result:updatedVal});
+                this.setState({updatedVal: updatedVal})
             }else{
-                tmpStack.pop();
-                tmpStack.push(callbackVal)
+                if(!tmpStack.length){
+                    tmpStack.push(callbackVal)
+                }else{
+                    tmpStack.pop()
+                    tmpStack.push(callbackVal)
+                }
             }
         }
 
@@ -68,13 +94,13 @@ class Calculator extends React.Component{
     render(){
         const {result} = this.state
         const buttons = this.text.map((text,idx)=>{
-            if (text !== '='){
+            if (text !== '0'){
                 return (
-                    <Button text={text} func={this.parseResult} key={idx}></Button>
+                    <Button text={text} func={this.parseResult}  key={idx}></Button>
                 );
             }else{
                 return (
-                    <Button text={text} func={this.parseResult} className = "button" key={idx}></Button>
+                    <Button text={text} func={this.parseResult} className = "zero" key={idx}></Button>
                 );
             }
 
@@ -83,7 +109,7 @@ class Calculator extends React.Component{
         return (
             <div className="board">
                 <div className="displayWindow">
-                    <span>{result}</span>
+                    <span style={{paddingRight:"20px"}}>{result}</span>
                 </div>
                 {buttons}
             </div>

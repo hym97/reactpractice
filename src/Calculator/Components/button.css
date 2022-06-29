@@ -1,0 +1,27 @@
+*{
+    font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+}
+
+.numButton{
+    background: white;
+    border: 1px solid grey;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+span * {
+    text-align: center;
+}
+
+.operationButton{
+    background: darkgrey;
+    border: 1px solid grey;
+    font-size: 24px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+
+}
+
