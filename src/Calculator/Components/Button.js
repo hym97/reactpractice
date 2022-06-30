@@ -1,26 +1,19 @@
 import React from "react";
 import "./button.css"
+import {hasNum} from "../Logic/helper";
 class Button extends React.Component{
 
-    hasNumber = (myString) => {
-        return /\d/.test(myString);
-    }
 
     return_data = () => {
-
-        console.log("clicked")
-        const {text,func} = this.props
-        if(this.hasNumber(text)){
-            func(parseInt(text));
-        }else{
-            func(text)
-        }
+        const {text, func} = this.props
+        func(text)
     }
+
 
     render() {
         const {text, className} = this.props
 
-        const classActive = [className, this.hasNumber(text) || text === "." ? "numButton" : "operationButton"].join(" ")
+        const classActive = [className, hasNum(text) || text === "." ? "numButton" : "operationButton"].join(" ")
         return (
             <div onClick={this.return_data} className={classActive}>
                 <span>{text}</span>

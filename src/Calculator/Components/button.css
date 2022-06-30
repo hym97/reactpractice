@@ -3,25 +3,37 @@
 }
 
 .numButton{
-    background: white;
-    border: 1px solid grey;
+    background: whitesmoke;
+    border: 1px solid lightgray;
     font-size: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0 5px lightgray;
 }
 
-span * {
-    text-align: center;
+.numButton:hover{
+    background: lightgray;
 }
+
+span {
+    text-align: center;
+    cursor: default;
+}
+
+
 
 .operationButton{
-    background: darkgrey;
-    border: 1px solid grey;
+    background: gainsboro;
+    border: 1px solid lightgray;
     font-size: 24px;
     display: flex;
     justify-content: center;
     align-items: center;
+    box-shadow: 0 0 5px lightgray;
 
 }
 
+.operationButton:hover{
+    background: lightgray;
+}

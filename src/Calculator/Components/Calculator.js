@@ -1,98 +1,92 @@
 import React from "react";
 import Button from "./Button";
-import "./calculator.css"
+import "./calculator.css";
+import {hasNum} from "../Logic/helper";
 class Calculator extends React.Component{
     state = {result:0, updatedVal:0};
-    tmpStack = [];
+    numStack = ['0'];
+    operationStack = [];
+    numFlg = 1;
     parseResult = (callbackVal)=>{
-        console.log("parser clicked")
-        console.log("callbackVal", callbackVal)
-        let tmpStack = this.tmpStack;
-        let {result, updatedVal} = this.state
+        const initState = (strs) => {
+            let numStack = this.numStack
+            let opStack = this.operationStack
+            numStack.length = 0
+            numStack.push(strs)
+            opStack.length =0
+            this.numFlg = 1;
+            this.setState({result:numStack[numStack.length-1]})
+            return null
+        }
 
-        let lastOperation;
-        // debugger;
-        if(typeof callbackVal === 'number') {
-            if(!tmpStack.length){
-                tmpStack.push(callbackVal);
-                this.setState({result:callbackVal});
-
-                this.setState({updatedVal: callbackVal})
-            }else{
-                lastOperation = tmpStack.pop();
-                if(typeof lastOperation === 'number'){
-                    updatedVal = lastOperation * 10 + callbackVal;
-                    tmpStack.push(updatedVal)
-
-
-                    this.setState({result:updatedVal});
-                    this.setState({updatedVal: updatedVal})
-                }else{
-                    this.setState({result: callbackVal})
-                    switch (lastOperation){
-                        case "+":
-                            updatedVal = result + callbackVal;
-                            console.log(updatedVal)
-                            break;
-                        case "-":
-                            updatedVal = result - callbackVal;
-                            break;
-                        case "x":
-                            updatedVal = result * callbackVal;
-                            break;
-                        case '/':
-                            updatedVal = result / callbackVal;
-                            break;
-                        // case '+/-':
-                        //     updatedVal = -result;
-                        //     this.setState({result:updatedVal});
-                        //     break;
-                        // case "=":
-                        //     if(updatedVal !== result) this.setState({result:updatedVal});
-                        //     break;
-                        // case "%":
-                        //     updatedVal = 0.01 * result;
-                        //     this.setState({result:updatedVal});
-                        //     break;
-                        // case "AC":
-                        //     updatedVal = 0;
-                        //     this.setState({result:updatedVal})
-                    }
-                    this.setState({updatedVal:updatedVal})
-                }
+        let numStack= this.numStack;
+        let opStack = this.operationStack
+        if(hasNum(callbackVal)){
+            if(!numStack.length || this.numFlg === 0){
+                numStack.push(callbackVal)
+                this.numFlg = 1
+            }else if(this.numFlg === 1){
+                let lastDigit = numStack.pop()
+                numStack.push(lastDigit === "0" ? callbackVal : lastDigit + callbackVal)
+            }else if(this.numFlg === 2){
+                initState(callbackVal)
             }
-        }else{
-            if(callbackVal === "="){
-                console.log(updatedVal)
-                this.setState({result:updatedVal});
-            }else if(callbackVal === '+/-'){
-                updatedVal = -result;
-                this.setState({result:updatedVal});
-            }else if(callbackVal === '%'){
-                updatedVal = 0.01 * result;
-                this.setState({result:updatedVal});
-            }else if(callbackVal === "AC"){
-                updatedVal = 0;
-                tmpStack.length = 0
-
-                this.setState({result:updatedVal});
-                this.setState({updatedVal: updatedVal})
-            }else{
-                if(!tmpStack.length){
-                    tmpStack.push(callbackVal)
-                }else{
-                    tmpStack.pop()
-                    tmpStack.push(callbackVal)
+            this.setState({result:numStack[numStack.length-1]})
+        }else if(callbackVal === "AC"){
+            initState("0");
+        }else if(callbackVal === "%"){
+            let curr_num = numStack.pop();
+            curr_num = (Number(curr_num) / 100).toPrecision(curr_num.length);
+            numStack.push(String(curr_num));
+            this.numFlg = 0;
+            this.setState({result:numStack[numStack.length-1]});
+        }else if(callbackVal === "=") {
+            if (opStack.length && numStack.length >= 2) {
+                let str1 = numStack.pop(), str2 = numStack.pop();
+                let result = 0;
+                switch (opStack.pop()) {
+                    case "+":
+                        result = Number(str1) + Number(str2);
+                        break;
+                    case "-":
+                        result = Number(str2) - Number(str1);
+                        break;
+                    case "x":
+                        result = Number(str1) * Number(str2);
+                        break;
+                    case "/":
+                        result = str1 === '0' ? "Cannot divide by zero": result = Number(str2) / Number(str1);
+                        break;
                 }
+                numStack.push(String(result));
+                this.setState({result: numStack[numStack.length - 1]});
+                this.numFlg = 2;
+            }
+        }else if (callbackVal === ".") {
+            if(this.numFlg === 2){
+                initState("0");
+            }
+                let currStrs = numStack.pop();
+                numStack.push(currStrs + ".");
+                this.setState({result: numStack[numStack.length - 1]});
+        }else if (callbackVal === "+/-"){
+            let currStrs = numStack.pop();
+            numStack.push("-" + currStrs);
+            this.setState({result: numStack[numStack.length - 1]});
+        }else{
+            if(!opStack.length) {
+                opStack.push(callbackVal);
+            }else{
+                opStack.length = 0;
+                opStack.push(callbackVal);
+            }
+            this.numFlg = 0;
             }
         }
 
-    }
-
-
-    text = ['AC',  '+/-', '%', '/', '7', '8','9', 'x','4','5','6','-','1','2','3','+','0','.','=']
+    text = ['AC',  '+/-', '%', '/', '7', '8','9', 'x','4','5','6','-','1','2','3','+','0','.','='];
     render(){
-        const {result} = this.state
+        const {result} = this.state;
         const buttons = this.text.map((text,idx)=>{
             if (text !== '0'){
                 return (
@@ -104,7 +98,7 @@ class Calculator extends React.Component{
                 );
             }
 
-        })
+        });
 
         return (
             <div className="board">
@@ -114,9 +108,9 @@ class Calculator extends React.Component{
                 {buttons}
             </div>
 
-        )
+        );
     }
 }
 
 
-export default Calculator
+export default Calculator;
