@@ -4,11 +4,13 @@ import './index.css';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import Calculator from "./Calculator/Components/Calculator";
+import Signup from "./Signup/Components/Signup";
 
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
     <Calculator/>
+      <Signup></Signup>
   </React.StrictMode>
 );
 
