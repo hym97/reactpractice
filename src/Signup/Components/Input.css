@@ -1,0 +1,28 @@
+.container > input{
+    outline: rgb(241, 241, 241) solid;
+    border: none;
+    padding: 8px;
+}
+
+.container > input:focus{
+    outline-color: #4285F4;
+}
+
+.container > input:focus + label{
+    transform: translateY(-1em) scale(0.75);
+    transform-origin: left;
+    transition: 0.25s ease-in-out;
+    color: #4285F4;
+    background-color: white;
+}
+
+.container > input:not(:placeholder-shown) + label{
+    transform: translateY(-1em);
+    z-index: 1;
+}
+
+
+.container label{
+    position: absolute;
+    left: 0;
+}
