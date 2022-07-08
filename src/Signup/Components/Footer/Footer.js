@@ -5,6 +5,7 @@ import styled from "styled-components";
 const StyledDiv = styled.div`
  display: grid;
   grid-template-columns: 70% 15% 15%;
+  height: 20px;
   
 
 `
