@@ -1,5 +1,5 @@
 import React from "react";
-import {StyledInputs} from "./styled";
+import {StyledInputs} from "../styled";
 // const StyledInputs = styled.div`
 //   &{
 //     display: inline-block;
@@ -53,10 +53,10 @@ import {StyledInputs} from "./styled";
 export default class Input extends React.Component{
 
     render(){
-        const {type, placeholder} = this.props
+        const {type, placeholder,grid} = this.props
         return (
 
-            <StyledInputs>
+            <StyledInputs grid={grid}>
             <input type={type} placeholder={" "}/><label>{placeholder}</label>
             </StyledInputs>
         )

@@ -1,7 +1,7 @@
 import React from "react";
 import DropBtn from "./DropBtn";
 import styled from "styled-components";
-import {FooterLi, FooterPanel, FooterUl} from "./styled";
+import {FooterLi, FooterPanel, FooterUl} from "../styled";
 
 
 

@@ -1,5 +1,5 @@
 import React from "react";
-import {SelectionsPanel, StyledDropBtn} from "./styled";
+import {SelectionsPanel, StyledDropBtn} from "../styled";
 
 
 export default class DropBtn extends React.Component{
