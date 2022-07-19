@@ -2,32 +2,21 @@ import styled, {css, keyframes} from "styled-components";
 
 
 export const SignupPanel = styled.div`
-  width: 80%;
+  width: 60%;
     display: flex;
   justify-content: space-between;
   align-items: center;
   margin: 0 auto;
+  height: 60%;
     `;
 
 export const SignupForm = styled.form`
-  width: 55%;
-  display: grid;
-  column-gap: 5%;
-  grid-template-columns: 1fr 1fr;
-  grid-template-rows: repeat(8,12.5%);
-  grid-template: 
-          "a b"
-          "c c"
-          "d d"
-          "e e"
-          "f g"
-          "h h"
-          "i i"
-          "j j"
-          ". . "
-          "k l";
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
+`;
 
-    `;
 
 export const ImgField = styled.div`
     width: 35%;
@@ -39,15 +28,18 @@ export const TextField = styled.div`
 `
 export const LinkField = styled.div`
   font-size: 16px;
-  grid-area: ${props => props.grid};
-`
+  color:${props=> props.color};
+  font-weight: ${props=>props.fontWeight};
+  height: 36px;
+  letter-spacing: .0107142857em;
+    `
 export const StyledInputs = styled.div`
   position: relative;
   grid-area: ${props => props.grid};
   font-size: 15px;
   color:#202124;
   label{
-    
+    pointer-events: none;
     position: absolute;
     left: 8px;
     transform:translateY(50%);
@@ -56,13 +48,12 @@ export const StyledInputs = styled.div`
   }
 
   input{
-   //width: calc(100% - 16px);;
+   width: calc(100% - 16px);;
     //overflow: hidden;
     outline: rgb(241, 241, 241) solid;
     border: none;
     padding: 8px;
     border-radius: 4px;
-  
   }
   
   input:focus{
@@ -78,7 +69,8 @@ export const StyledInputs = styled.div`
   }
   
   input:not(:placeholder-shown) + label{
-    transform: translateY(-1em);
+    transform: translateY(-1em) scale(0.75);
+    transform-origin: -5%;
     z-index: 1;
     
   }
@@ -192,3 +184,25 @@ export const FooterPanel = styled.div`
   font-size: 12px;
 
 `;
+
+export const SignupSection = styled.div`
+  height:${props => props.height};
+display: flex;
+  flex-direction: column;
+  flex-wrap: nowrap;
+justify-content: ${props => props.spaceBetween ? "space-between" : "flex-start"};
+  row-gap: 10%;
+  
+`;
+
+export const SignupSectionMain  =styled(SignupSection)`
+height: 100%;
+  justify-content: flex-start;
+  
+`;
+
+export const EvenDivideDiv = styled.div`
+    display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+    `;

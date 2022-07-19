@@ -9,7 +9,7 @@ import Signup from "./Signup/Components/Signup";
 const root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <Calculator/>
+    {/*<Calculator/>*/}
       <Signup></Signup>
   </React.StrictMode>
 );

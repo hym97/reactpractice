@@ -50,16 +50,37 @@ import {StyledInputs} from "../styled";
 // `;
 
 
-export default class Input extends React.Component{
-
-    render(){
-        const {type, placeholder,grid} = this.props
-        return (
-
-            <StyledInputs grid={grid}>
-            <input type={type} placeholder={" "}/><label>{placeholder}</label>
-            </StyledInputs>
-        )
+export default class Input extends React.Component {
+    oninputChange = (event,idx) =>{
+        console.log("inputChanged")
+        const {prtCallBack} = this.props;
+        let updatedVal = event.target.value
+        prtCallBack(idx,updatedVal)
     }
+    render() {
+        const {type, placeholder, emailtext,value, idx} = this.props
 
+        console.log(value)
+        if (emailtext) {
+            return (
+                <StyledInputs>
+                    <input type={type} placeholder={" "}
+                           onChange={event => this.oninputChange(event,idx)}
+                           value={value}/>
+                    <label>{placeholder}</label>
+                    <span style={{position: "absolute", right: "8px", transform:"translateY(50%)"}}>{emailtext}</span>
+                </StyledInputs>
+            )
+        } else {
+            return (
+                <StyledInputs>
+                    <input type={type} placeholder={" "}/><label>{placeholder}</label>
+                </StyledInputs>
+            )
+        }
+    }
 }
+
+
+
+
